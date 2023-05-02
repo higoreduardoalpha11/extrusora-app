@@ -1,0 +1,16 @@
+@server=http://localhost:4040
+@endPoint=zones
+
+### POST /zones
+POST {{ server }}/{{ endPoint }} HTTP/1.1
+content-type: application/json
+
+{
+  "zoneType": "entry",
+  "temperature": 30,
+  "pressure": 101.3,
+  "power": 5
+}
+
+### GET /zones?date=2023-05-02
+GET {{ server }}/{{ endPoint }}?date=2023-05-02 HTTP/1.1
