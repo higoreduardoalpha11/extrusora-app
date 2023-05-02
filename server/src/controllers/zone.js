@@ -1,6 +1,7 @@
 const dayjs = require('dayjs');
 
-const Zone = require('../models/Zone');
+const { ZoneTypeEnum, Zone } = require('../models/Zone');
+const { existedHandling } = require('../helpers/messageHandling');
 
 const zoneController = {
   async registerZone(req, res) {
@@ -12,35 +13,49 @@ const zoneController = {
 
       return res.status(201).json(zoneSaved);
     } catch (err) {
-      console.log(err);
+      const error = existedHandling();
+      res.status(error.httpStatusCode).json(error);
     }
   },
   async getZoneDate(req, res) {
     const { date } = req.query;
 
-    const parsedDate = dayjs(date).startOf('day');
+    const currentDate = date ? new Date(date) : new Date();
+    const parsedDate = dayjs(currentDate).add(1, 'day');
+    const nextDate = new Date(parsedDate);
 
-    // const parsedDate = dayjs(date).startOf('day');
-    // const year = parsedDate.get('year');
-    // const day = parsedDate.get('date');
-    // const month = parsedDate.get('month');
+    try {
+      const entryZone = await Zone.find({
+        createdAt: {
+          $gte: currentDate,
+          $lt: nextDate,
+        },
+        zoneType: ZoneTypeEnum.Entry,
+      });
 
-    console.log(parsedDate);
-    parsedDate.add(1, 'day');
-    console.log(parsedDate);
+      const mixZone = await Zone.find({
+        createdAt: {
+          $gte: currentDate,
+          $lt: nextDate,
+        },
+        zoneType: ZoneTypeEnum.Mix,
+      });
 
-    return res.status(200).json({ msg: 'Ok' });
+      const dosageZone = await Zone.find({
+        createdAt: {
+          $gte: currentDate,
+          $lt: nextDate,
+        },
+        zoneType: ZoneTypeEnum.Dosage,
+      });
 
-    // try {
-    //   const allZones = await Zone.find({
-    //     createdAt: {
-    //       $gte: currentDate,
-    //       $lt: nextDate,
-    //     }
-    //   });
-    // } catch (err) {
-    //   console.log(err);
-    // }
+      return res.status(200).json(
+        Object.assign({}, { entryZone, mixZone, dosageZone })
+      );
+    } catch (err) {
+      const error = existedHandling();
+      res.status(error.httpStatusCode).json(error);
+    }
   },
 }
 module.exports = zoneController;

@@ -14,4 +14,4 @@ const ZoneSchema = mongoose.Schema({
 }, { timestamps: true });
 
 const Zone = mongoose.model('Zone', ZoneSchema);
-module.exports = Zone;
+module.exports = { ZoneTypeEnum, Zone };
