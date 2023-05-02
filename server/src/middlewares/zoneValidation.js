@@ -1,5 +1,7 @@
 const Joi = require('joi');
 
+const { requiredHandling } = require('../helpers/messageHandling');
+
 const zoneValidation = {
   async registerZone(req, res, next) {
     const { zoneType, temperature, pressure, power } = req.body;
@@ -15,7 +17,8 @@ const zoneValidation = {
       await registerZoneSchema.validateAsync({ zoneType, temperature, pressure, power });
       next();
     } catch (err) {
-      console.log(err);
+      const error = requiredHandling(err);;
+      res.status(error.httpStatusCode).json(error);
     }
   },
   async getZoneDate(req, res, next) {
@@ -29,7 +32,8 @@ const zoneValidation = {
       await getZoneDateSchema.validateAsync({ date });
       next();
     } catch (err) {
-      console.log(err);
+      const error = requiredHandling(err);;
+      res.status(error.httpStatusCode).json(error);
     }
   }
 }
