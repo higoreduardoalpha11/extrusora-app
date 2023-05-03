@@ -1,0 +1,93 @@
+/* VARIABLES */
+@import url(./_vars.css);
+
+/* BASE */
+*, ::before, ::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+
+body,
+html {
+  font-family: var(--font-family);
+  /* font-size: 62.5%; */
+  scroll-behavior: smooth;
+  appearance: none;
+  user-select: none;
+  overflow-x: hidden;
+  background-color: var(--color-bg-dark);
+}
+
+a { text-decoration: none; }
+
+button, input[type="submit"] {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+textarea, input, select {
+  font-family: inherit;
+  border: none;
+  resize: none;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+ol, ul { list-style: none; }
+
+h1, h2, h3, h4, h5, h6, p, span, small {
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--color-light);
+}
+
+h1 {
+  line-height: var(--line-height-h1);
+  font-size: var(--font-size-h1);
+}
+
+h2 {
+  line-height: var(--line-height-h2);
+  font-size: var(--font-size-h2);
+}
+
+h3 {
+  line-height: var(--line-height-h3);
+  font-size: var(--font-size-h3);
+}
+
+h4 {
+  line-height: var(--line-height-h4);
+  font-size: var(--font-size-h4);
+}
+
+h5 {
+  line-height: var(--line-height-h5);
+  font-size: var(--font-size-h5);
+}
+
+h6 {
+  line-height: var(--line-height-lg);
+  font-size: var(--font-size-lg);
+}
+
+p {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+}
+
+a, strong, span {
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-xs);
+}
+
+small {
+  font-size: var(--font-size-xxs);
+  line-height: var(--line-height-xxs);
+}

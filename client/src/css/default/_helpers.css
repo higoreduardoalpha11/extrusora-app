@@ -1,0 +1,6 @@
+/* DISPLAY */
+.container {
+  width: 100%;
+  max-width: var(--main-width);
+  margin: 0 auto;
+}
