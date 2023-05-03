@@ -15,13 +15,13 @@ export const settingSlice = createSlice({
   initialState,
   reducers: {
     handleChangeSetting: (state, action) => {
-      state.limitTemperature = action.limitTemperature;
-      state.limitPressure = action.limitPressure;
-      state.intervalRotation = action.intervalRotation;
-      state.intervalEntryPower = action.intervalEntryPower;
-      state.intervalMixPower = action.intervalMixPower;
-      state.intervalDosagePower = action.intervalDosagePower;
-      state.intervalPersistanceData = action.intervalPersistanceData;
+      state.limitTemperature = action.payload.limitTemperature;
+      state.limitPressure = action.payload.limitPressure;
+      state.intervalRotation = action.payload.intervalRotation;
+      state.intervalEntryPower = action.payload.intervalEntryPower;
+      state.intervalMixPower = action.payload.intervalMixPower;
+      state.intervalDosagePower = action.payload.intervalDosagePower;
+      state.intervalPersistanceData = action.payload.intervalPersistanceData;
     },
     handleClearSetting: state => {
       state.limitTemperature = '';
