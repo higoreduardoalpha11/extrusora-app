@@ -1,22 +1,8 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import { MdReport, MdCheckCircle, MdClose } from 'react-icons/md';
 
+import { Icon } from '@/app/components';
 import './index.css';
-
-const Icon = ({ type }) => {
-  switch (type) {
-    case 'error':
-      return (<MdReport />)
-    case 'success':
-      return (<MdCheckCircle />);
-    case 'close':
-      return (<MdClose />);
-    default:
-      return (<MdCheckCircle />);
-  }
-}
-Icon.propTypes = { type: PropTypes.string }
 
 const Toast = ({ message, setMessage }) => {
   const closeMessage = () => setMessage(null);
@@ -30,7 +16,7 @@ const Toast = ({ message, setMessage }) => {
   return (
     <div className={`toast toast-${message?.type} ${message ? 'active' : ''} flex flex-row flex-start gap-20`}>
       <div className="toast--icon flex flex-center">
-        <Icon type={message?.type} />
+        <Icon icon={message?.type} />
       </div>
 
       <div className="toast--message flex flex-col">
@@ -43,7 +29,7 @@ const Toast = ({ message, setMessage }) => {
         onClick={closeMessage}
         className="toast--close"
       >
-        <Icon type="close" />
+        <Icon icon="close" />
       </button>
     </div>
   )

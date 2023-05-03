@@ -13,17 +13,13 @@ const Setting = () => {
   console.log(setting);
 
   const handleFormSubmit = (values) => {
-    // eventBus.dispatch('loader', true);
+    eventBus.dispatch('loader', true);
     dispatch(
       ActionSetting.handleChangeSetting(values, (message) => {
         eventBus.dispatch('loader', false);
         eventBus.dispatch('toast', message);
       })
     )
-
-    // dispatch(
-    //   ActionSetting.handleClearSetting()
-    // )
   }
 
   return (
