@@ -46,9 +46,17 @@
   --color-light: #999999;
   --color-light-green: #49C5B6;
   --color-success: #26A340;
+  --medium-color-success: #18633a;
+  --light-color-success: #bdf5d3;
   --color-warning: #DCBB0A;
+  --medium-color-warning: #ffca6d;
+  --light-color-warning: #ffe1a5;
   --color-info: #0C70F9;
+  --medium-color-info: #96cefa;
+  --light-color-info: #c1e1fc;
   --color-danger: #DC3544;
+  --medium-color-danger: #ff9baa;
+  --light-color-danger: #ffc4cd;
 
   /* BOX SHADOW */
   --box-shadow-small: 0 2px 2px -2px rgba(31, 27, 45, 0.08), 0 4px 12px rgba(31, 27, 45, 0.08);
