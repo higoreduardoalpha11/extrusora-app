@@ -8,15 +8,19 @@
   letter-spacing: .5px;
   padding: 10px 20px;
   border-radius: var(--border-radius-base);
+  border: 1px solid transparent;
   box-shadow: var(--box-shadow-large);
   background-color: transparent;
   transition: all 300ms ease-in-out;
 }
 
+.button-sm { padding: 5px; }
+
 .button:hover { opacity: 0.8; }
 .button-white { background-color: var(--color-white); }
-.button-success { background-color: var(--color-success); }
+.button-success { color: var(--color-white); background-color: var(--color-success); }
 .button-warning { background-color: var(--color-warning); }
 .button-info { background-color: var(--color-info); }
 .button-danger { background-color: var(--color-danger); }
+.button-none { color: var(--color-white); border-color: var(--color-white); }
 .button-disable { background-color: var(--color-light); }

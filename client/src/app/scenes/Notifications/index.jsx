@@ -1,7 +1,11 @@
+import { BsPersonWorkspace } from 'react-icons/bs';
+
 const Notifications = () => {
   return (
     <section className="notifications">
-      <h1>Notifications</h1>
+      <div className="container">
+        <h1 className="flex flex-center py-30"><BsPersonWorkspace /> Em desenvolvimento</h1>
+      </div>
     </section>
   )
 }
