@@ -2,10 +2,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { MdApps, MdSettings, MdNotificationsNone, MdPowerSettingsNew } from 'react-icons/md';
 import { useState } from 'react';
 
+import eventBus from '@/app/utils/eventBus';
+
 const Navbar = () => {
   const location = useLocation();
   const pathname = location.pathname;
   const [isNofifiction, setIsNotification] = useState(false);
+  const [isEnergy, setIsEnergy] = useState(false); // Tenho que acionar e desacionar botoeira de emergência
 
   return (
     <header className="navbar py-10 bg-bg-light">
@@ -26,8 +29,15 @@ const Navbar = () => {
             <MdNotificationsNone className={`font-h4 ${pathname === '/notificacoes' ? 'text-light-green' : 'text-light'}`} />
           </Link>
 
-          <span className="text cursor-pointer">
-            <MdPowerSettingsNew className="font-h4 text text-light" />
+          <span 
+            className="text cursor-pointer"
+            onClick={() => {
+              setIsEnergy(!isEnergy);
+              if (isEnergy) eventBus.dispatch('on-ready', true);
+              else eventBus.dispatch('on-ready', false);
+            }}
+          >
+            <MdPowerSettingsNew className={`font-h4 text ${isEnergy ? 'text-light-green' : 'text-danger'}`} />
           </span>
         </nav>
       </div>

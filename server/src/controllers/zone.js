@@ -57,5 +57,55 @@ const zoneController = {
       res.status(error.httpStatusCode).json(error);
     }
   },
+  async getTemperatureZoneDate(req, res) {
+    const { date } = req.query;
+
+    const currentDate = date ? new Date(date) : new Date();
+    const parsedDate = dayjs(currentDate).add(1, 'day');
+    const nextDate = new Date(parsedDate);
+
+    try {
+      const temperatures = await Zone
+        .find({
+          createdAt: {
+            $gte: currentDate,
+            $lt: nextDate,
+          },
+        })
+        .select('createdAt temperature zoneType')
+        .sort({ createdAt: 1 });
+
+      const entry = temperatures
+        .map((item) => item.zoneType === ZoneTypeEnum.Entry ? item : undefined)
+        .filter((item) => item !== undefined);
+      const mix = temperatures
+        .map((item) => item.zoneType === ZoneTypeEnum.Mix ? item : undefined)
+        .filter((item) => item !== undefined);
+      const dosage = temperatures
+        .map((item) => item.zoneType === ZoneTypeEnum.Dosage ? item : undefined)
+        .filter((item) => item !== undefined);
+
+      const template = {
+        name: '',
+        Alimentacao: '',
+        Mistura: '',
+        Dosagem: '',
+      };
+      const formatedTemperatures = [];
+      entry.forEach((item, i) => {
+        const dataObj = { ...template };
+        dataObj.name = dayjs(item.createdAt).format('HH:mm');
+        dataObj.Alimentacao = entry[i]?.temperature;
+        dataObj.Mistura = mix[i]?.temperature;
+        dataObj.Dosagem = dosage[i]?.temperature;
+        formatedTemperatures.push(dataObj);
+      });
+
+      return res.status(200).json(formatedTemperatures);
+    } catch (err) {
+      const error = existedHandling();
+      res.status(error.httpStatusCode).json(error);
+    }
+  }
 }
 module.exports = zoneController;

@@ -35,6 +35,21 @@ const zoneValidation = {
       const error = requiredHandling(err);;
       res.status(error.httpStatusCode).json(error);
     }
+  },
+  async getTemperatureZoneDate(req, res, next) {
+    const { date } = req.query;
+
+    const getTemperatureZoneDateSchema = Joi.object({
+      date: Joi.string().optional(),
+    });
+
+    try {
+      await getTemperatureZoneDateSchema.validateAsync({ date });
+      next();
+    } catch (err) {
+      const error = requiredHandling(err);;
+      res.status(error.httpStatusCode).json(error);
+    }
   }
 }
 module.exports = zoneValidation;
