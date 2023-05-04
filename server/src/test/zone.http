@@ -14,3 +14,6 @@ content-type: application/json
 
 ### GET /zones?date=2023-05-02
 GET {{ server }}/{{ endPoint }}?date=2023-05-02 HTTP/1.1
+
+### GET /zones/temperature?date=2023-05-04
+GET {{ server }}/{{ endPoint }}/temperature?date=2023-05-04 HTTP/1.1
