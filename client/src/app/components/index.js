@@ -13,3 +13,4 @@ export { default as CardRate } from './Card/CardRate';
 export { default as CardEntry } from './Card/CardEntry';
 export { default as CardMix } from './Card/CardMix';
 export { default as CardDosage } from './Card/CardDosage';
+export { default as CardData } from './Card/CardData';

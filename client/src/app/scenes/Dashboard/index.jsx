@@ -5,6 +5,7 @@ import {
   CardMix,
   CardDosage,
   ChartLine,
+  CardData,
 } from '@/app/components';
 
 const Dashboard = () => {
@@ -20,6 +21,12 @@ const Dashboard = () => {
           <CardEntry />
           <CardMix />
           <CardDosage />
+        </div>
+
+        <div className="grid grid-3 gap-20">
+          <CardData icon="lamp" zoneType="entry" />
+          <CardData icon="lamp" zoneType="mix" />
+          <CardData icon="lamp" zoneType="dosage" />
         </div>
 
         <ChartLine target="temperatures" />
