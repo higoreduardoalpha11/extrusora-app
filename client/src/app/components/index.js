@@ -5,6 +5,7 @@ export { default as Loader } from './Loader';
 export { default as Icon } from './Icon';
 export { default as Toast } from './Toast';
 export { default as ChartLine } from './ChartLine';
+export { default as ChartHeader } from './ChartHeader';
 
 export { default as Card } from './Card';
 export { default as CardExtruder } from './Card/CardExtruder';
