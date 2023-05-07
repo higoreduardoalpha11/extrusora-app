@@ -7,7 +7,7 @@ import eventBus from '@/app/utils/eventBus';
 const Navbar = () => {
   const location = useLocation();
   const pathname = location.pathname;
-  const [isNofifiction, setIsNotification] = useState(false);
+  const [isNofifiction, setIsNotification] = useState(true);
   const [isEnergy, setIsEnergy] = useState(false); // Tenho que acionar e desacionar botoeira de emergência
 
   return (
@@ -23,13 +23,16 @@ const Navbar = () => {
             <MdSettings className={`font-h4 ${pathname === '/configuracao' ? 'text-light-green' : 'text-light'}`} />
           </Link>
 
-          <Link to="/notificacoes" className="text p-relative" onClick={() => setIsNotification(false)}>
-            { isNofifiction && <span className="p-absolute w-10 h-10 border-radius-full top-0 right-0 bg-danger"></span>}
-            
-            <MdNotificationsNone className={`font-h4 ${pathname === '/notificacoes' ? 'text-light-green' : 'text-light'}`} />
-          </Link>
+          <span className="text p-relative cursor-pointer" onClick={() => {
+            eventBus.dispatch('notification', true);
+            setIsNotification(false);
+          }}>
+            {isNofifiction && <span className="p-absolute w-10 h-10 border-radius-full top-0 right-0 bg-light-green"></span>}
 
-          <span 
+            <MdNotificationsNone className={`font-h4 ${pathname === '/notificacoes' ? 'text-light-green' : 'text-light'}`} />
+          </span>
+
+          <span
             className="text cursor-pointer"
             onClick={() => {
               setIsEnergy(!isEnergy);
