@@ -21,6 +21,7 @@ const ChartHeader = ({ target, startDate, setStartDate }) => {
     dispatch(
       Analytics.handleChangeTemperatures(dayjs(startDate).format('YYYY-MM-DD'), (message) => {
         if (message) eventBus.dispatch('toast', message);
+        eventBus.dispatch('loader', false);
       })
     )
   }
@@ -29,6 +30,7 @@ const ChartHeader = ({ target, startDate, setStartDate }) => {
     dispatch(
       Analytics.handleChangePressures(dayjs(startDate).format('YYYY-MM-DD'), (message) => {
         if (message) eventBus.dispatch('toast', message);
+        eventBus.dispatch('loader', false);
       })
     )
   }
@@ -37,6 +39,7 @@ const ChartHeader = ({ target, startDate, setStartDate }) => {
     dispatch(
       Analytics.handleChangePowers(dayjs(startDate).format('YYYY-MM-DD'), (message) => {
         if (message) eventBus.dispatch('toast', message);
+        eventBus.dispatch('loader', false);
       })
     )
   }
@@ -45,11 +48,13 @@ const ChartHeader = ({ target, startDate, setStartDate }) => {
     dispatch(
       Analytics.handleChangeRates(dayjs(startDate).format('YYYY-MM-DD'), (message) => {
         if (message) eventBus.dispatch('toast', message);
+        eventBus.dispatch('loader', false);
       })
     )
   }
 
   useEffect(() => {
+    eventBus.dispatch('loader', true);
     if (target === 'temperatures') getTemperaturesData();
     else if (target === 'pressures') getPressuresData();
     else if (target === 'powers') getPowersData();

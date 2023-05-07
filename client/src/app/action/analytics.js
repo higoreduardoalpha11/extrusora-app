@@ -1,5 +1,5 @@
 import api from '@/app/lib/axios';
-import { errorHadling } from './responseHandling';
+import { errorHadling, successHandling } from './responseHandling';
 import {
   handleChangeTemperatures as analyticsHandleChangeTemperatures,
   handleChangePressures as analyticsHandleChangePressures,
@@ -7,6 +7,18 @@ import {
   handleChangeRates as analyticsHandleChangeRates,
 } from '@/app/state/analytics';
 import calculateRatesWithPowers from '@/app/utils/calculateRatesWithPowers';
+
+export const handleSaveDada = (data, cb) => {
+  return async function () {
+    let message = null;
+
+    await api.post('/zones', data)
+      .then(() => message = successHandling('Cadastro'))
+      .catch((err) => message = errorHadling(err));
+
+    cb(message);
+  }
+}
 
 export const handleChangeTemperatures = (date, cb) => {
   return async function (dispatch) {
