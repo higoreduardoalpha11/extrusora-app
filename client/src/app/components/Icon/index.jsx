@@ -8,6 +8,7 @@ import {
   MdWbTwighlight,
   MdKeyboardArrowDown,
   MdKeyboardArrowUp,
+  MdDangerous,
 } from 'react-icons/md';
 
 const Icon = ({ icon }) => {
@@ -28,6 +29,8 @@ const Icon = ({ icon }) => {
       return (<MdKeyboardArrowDown />);
     case 'arrow-up':
         return (<MdKeyboardArrowUp />);
+    case 'danger':
+      return (<MdDangerous />);
     default:
       return null;
   }

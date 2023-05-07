@@ -7,6 +7,7 @@ export { default as Toast } from './Toast';
 export { default as ChartLine } from './ChartLine';
 export { default as ChartHeader } from './ChartHeader';
 export { default as Notification } from './Notification';
+export { default as Modal } from './Modal';
 
 export { default as Card } from './Card';
 export { default as CardExtruder } from './Card/CardExtruder';
