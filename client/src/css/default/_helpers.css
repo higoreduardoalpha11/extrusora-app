@@ -72,6 +72,10 @@
 .box-shadow-default { box-shadow: var(--box-shadow-default); }
 .box-shadow-large { box-shadow: var(--box-shadow-large); }
 
+.scroll-none::-webkit-scrollbar { width: 0; }
+.scroll-none::-webkit-scrollbar-track { background-color: transparent; }
+.scroll-none::-webkit-scrollbar-thumb { background-color: transparent; }
+
 /* FLEX */
 .flex { display: flex; }
 .flex-row { flex-direction: row; }
@@ -167,3 +171,12 @@
 .text-left { text-align: left; }
 
 .cursor-pointer { cursor: pointer; }
+
+/* DATE PICKER */
+.react-datepicker__calendar-icon {
+  width: 25px;
+  height: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  fill: var(--color-white) !important;
+}
