@@ -3,12 +3,14 @@ import { MdApps, MdSettings, MdNotificationsNone, MdPowerSettingsNew } from 'rea
 import { useState } from 'react';
 
 import eventBus from '@/app/utils/eventBus';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
+  const { logs } = useSelector((state) => state.analytics);
   const location = useLocation();
   const pathname = location.pathname;
-  const [isNofifiction, setIsNotification] = useState(true);
   const [isEnergy, setIsEnergy] = useState(false); // Tenho que acionar e desacionar botoeira de emergência
+  const logsUnread = logs?.filter((item) => !item.visible)?.length;
 
   return (
     <header className="navbar py-10 bg-bg-light">
@@ -25,9 +27,8 @@ const Navbar = () => {
 
           <span className="text p-relative cursor-pointer" onClick={() => {
             eventBus.dispatch('notification', true);
-            setIsNotification(false);
           }}>
-            {isNofifiction && <span className="p-absolute w-10 h-10 border-radius-full top-0 right-0 bg-light-green"></span>}
+            {logsUnread > 0 && <span className="p-absolute w-10 h-10 border-radius-full top-0 right-0 bg-light-green"></span>}
 
             <MdNotificationsNone className={`font-h4 ${pathname === '/notificacoes' ? 'text-light-green' : 'text-light'}`} />
           </span>
