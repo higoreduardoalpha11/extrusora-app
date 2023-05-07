@@ -21,6 +21,6 @@
 .button-success { color: var(--color-white); background-color: var(--color-success); }
 .button-warning { background-color: var(--color-warning); }
 .button-info { background-color: var(--color-info); }
-.button-danger { background-color: var(--color-danger); }
+.button-danger { color: var(--color-white); background-color: var(--color-danger); }
 .button-none { color: var(--color-white); border-color: var(--color-white); }
 .button-disable { background-color: var(--color-light); }

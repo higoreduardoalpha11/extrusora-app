@@ -1,0 +1,67 @@
+.notification {
+  position: fixed;
+  top: 82px;
+  right: 0;
+  margin: 0 12px;
+  max-width: 500px;
+  min-width: 270px;
+  padding: 30px 10px;
+  background-color: var(--color-bg-light);
+  border: 1px solid var(--color-light);
+  border-radius: var(--border-radius-base);
+  z-index: 2;
+}
+
+.notification .wrapper {
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.notification .notification--card {
+  padding: 10px;
+  border-left: 2px solid transparent;
+  border-radius: var(--border-radius-base);
+  cursor: pointer;
+}
+
+.notification .notification--card .notification--card-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* ERROR */
+.notification .notification--card.error {
+  border-color: var(--color-danger);
+}
+
+.notification .notification--card.error .notification--card-bullet {
+  background-color: var(--color-danger);
+}
+
+/* SUCCESS */
+.notification .notification--card.success {
+  border-color: var(--color-success);
+}
+
+.notification .notification--card.success .notification--card-bullet {
+  background-color: var(--color-success);
+}
+
+/* WARNING */
+.notification .notification--card.warning {
+  border-color: var(--color-warning);
+}
+
+.notification .notification--card.warning .notification--card-bullet {
+  background-color: var(--color-warning);
+}
+
+/* INFO */
+.notification .notification--card.info {
+  border-color: var(--color-info);
+}
+
+.notification .notification--card.info .notification--card-bullet {
+  background-color: var(--color-info);
+}
