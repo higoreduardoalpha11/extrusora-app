@@ -36,20 +36,50 @@ const zoneValidation = {
       res.status(error.httpStatusCode).json(error);
     }
   },
-  async getTemperatureZoneDate(req, res, next) {
+  async getTemperaturesZoneDate(req, res, next) {
     const { date } = req.query;
 
-    const getTemperatureZoneDateSchema = Joi.object({
+    const getTemperaturesZoneDateSchema = Joi.object({
       date: Joi.string().optional(),
     });
 
     try {
-      await getTemperatureZoneDateSchema.validateAsync({ date });
+      await getTemperaturesZoneDateSchema.validateAsync({ date });
       next();
     } catch (err) {
       const error = requiredHandling(err);;
       res.status(error.httpStatusCode).json(error);
     }
-  }
+  },
+  async getPressuresZoneDate(req, res, next) {
+    const { date } = req.query;
+
+    const getPressuresZoneDateSchema = Joi.object({
+      date: Joi.string().optional(),
+    });
+
+    try {
+      await getPressuresZoneDateSchema.validateAsync({ date });
+      next();
+    } catch (err) {
+      const error = requiredHandling(err);;
+      res.status(error.httpStatusCode).json(error);
+    }
+  },
+  async getPowersZoneDate(req, res, next) {
+    const { date } = req.query;
+
+    const getPowersZoneDateSchema = Joi.object({
+      date: Joi.string().optional(),
+    });
+
+    try {
+      await getPowersZoneDateSchema.validateAsync({ date });
+      next();
+    } catch (err) {
+      const error = requiredHandling(err);;
+      res.status(error.httpStatusCode).json(error);
+    }
+  },
 }
 module.exports = zoneValidation;
