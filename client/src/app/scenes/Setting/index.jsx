@@ -10,8 +10,6 @@ const Setting = () => {
   const dispatch = useDispatch();
   const { setting } = useSelector((state) => state);
 
-  console.log(setting);
-
   const handleFormSubmit = (values) => {
     eventBus.dispatch('loader', true);
     dispatch(

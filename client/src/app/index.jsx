@@ -1,48 +1,29 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
+import './lib/dayjs';
 import eventBus from './utils/eventBus';
-import { Navbar, Toast, Loader, Notification } from './components';
+import { Analytics } from '@/app/action';
+import { Navbar, Toast, Loader, Notification, Modal } from './components';
 import { Dashboard, Setting } from './scenes';
 
 function App() {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [isNotification, setIsNotification] = useState(false);
-  const [notifications, setNotifications] = useState([
-    {
-      _id: 'akjsld987123as',
-      type: 'error',
-      title: 'Limite de pressão ultrapassado',
-      description: 'Limite de pressão de trabalho está superior ao limite máximo de segurança, por favor, desligue o equipamento e analise suas condições de trabalho.',
-      createdAt: '05/02/2000',
-      visible: false,
-    },
-    {
-      _id: 'jkh2ui123',
-      type: 'warning',
-      title: 'Limite de pressão próximo',
-      description: 'Limite de pressão de trabalho está próximo ao limite máximo de segurança, por favor, tome cuidado e analise suas condições de trabalho.',
-      createdAt: '05/02/2000',
-      visible: false,
-    },
-    {
-      _id: 'kjsaddas897',
-      type: 'success',
-      title: 'Peça acabada',
-      description: 'Peça finalizada durante o ciclo de trabalho, por motivos de segurança o equipamento foi desligado.',
-      createdAt: '05/02/2000',
-      visible: false,
-    },
-    {
-      _id: 'kljas879s',
-      type: 'success',
-      title: 'Peça acabada',
-      description: 'Peça finalizada durante o ciclo de trabalho, por motivos de segurança o equipamento foi desligado.',
-      createdAt: '05/02/2000',
-      visible: false,
-    },
-  ]);
+  const [modal, setModal] = useState(null);
+
+  const getAllNotifications = async () => {
+    eventBus.dispatch('loader', true);
+    dispatch(
+      Analytics.handleChangeLogs((message) => {
+        if (message) eventBus.dispatch('toast', message);
+        eventBus.dispatch('loader', false);
+      })
+    )
+  }
 
   useEffect(() => {
     // Listener/Clear loader
@@ -54,18 +35,33 @@ function App() {
     eventBus.remove('toast');
 
     // Listener/Clear notification
+    getAllNotifications();
     eventBus.on('notification', (data) => setIsNotification(data));
     eventBus.remove('notification');
-    eventBus.on('notifications', (data) => setNotifications(data));
-    eventBus.remove('notifications');
-  }, []);
+
+    // Listener/Clear modal
+    eventBus.on('modal', (data) => setModal(data));
+    eventBus.remove('modal');
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Router>
       <div className="App">
         {isLoading && (<Loader />)}
-        {isNotification && (<Notification notifications={notifications} />)}
         <Toast message={message} setMessage={setMessage} />
+        {isNotification && (<Notification />)}
+        {
+          modal && (
+            <Modal
+              message={modal?.message}
+              color={modal?.color}
+              icon={modal?.icon}
+              setModal={setModal}
+              cb={modal?.cb}
+              target={modal?.target}
+            />
+          )
+        }
         <Navbar />
         <Routes>
           <Route path="/" element={<Dashboard />} />
