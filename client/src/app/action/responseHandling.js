@@ -12,3 +12,11 @@ export const errorHadling = (err) => {
     message: err.response.data.message,
   }
 }
+
+export const successHandling = (title) => {
+  return {
+    type: 'success',
+    title,
+    message: 'realizado com sucesso',
+  }
+}
