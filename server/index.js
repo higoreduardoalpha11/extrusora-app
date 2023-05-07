@@ -4,12 +4,15 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const zoneRoutes = require('./src/routes/zones');
+const logRoutes = require('./src/routes/logs');
 
 // const { ZoneTypeEnum, Zone } = require('./src/models/Zone');
-// const generateZones = require('./src/data');
+// const { Log } = require('./src/models/Log');
+// const { generateZones, generateLogs } = require('./src/data');
 // const entryZones = generateZones(ZoneTypeEnum.Entry);
 // const mixZones = generateZones(ZoneTypeEnum.Mix);
 // const dosageZones = generateZones(ZoneTypeEnum.Dosage);
+// const logs = generateLogs();
 
 const app = express();
 const mongoUrl = process.env.SERVER_MONGO_URL;
@@ -19,6 +22,7 @@ app.use(express.json());
 app.disable('x-powered-by');
 
 app.use('/zones', zoneRoutes);
+app.use('/logs', logRoutes);
 
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
@@ -31,6 +35,7 @@ mongoose.connect(mongoUrl, {
     // Zone.insertMany(entryZones);
     // Zone.insertMany(mixZones);
     // Zone.insertMany(dosageZones);
+    // Log.insertMany(logs);
   })
 }).catch(() => {
   console.log('Did not connected');

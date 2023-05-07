@@ -5,6 +5,7 @@ const initialState = {
   pressures: [],
   powers: [],
   rates: [],
+  logs: [],
 }
 
 export const analyticsSlice = createSlice({
@@ -23,6 +24,9 @@ export const analyticsSlice = createSlice({
     handleChangeRates: (state, action) => {
       state.rates = action.payload.rates;
     },
+    handleChangeLogs: (state, action) => {
+      state.logs = action.payload.logs;
+    },
     handleClearTemperatures: state => {
       state.temperatures = [];
     },
@@ -35,6 +39,9 @@ export const analyticsSlice = createSlice({
     handleClearRates: state => {
       state.rates = [];
     },
+    handleClearLogs: state => {
+      state.logs = [];
+    },
   }
 });
 export const {
@@ -42,9 +49,11 @@ export const {
   handleChangePressures,
   handleChangePowers,
   handleChangeRates,
+  handleChangeLogs,
   handleClearTemperatures,
   handleClearPressures,
   handleClearPowers,
   handleClearRates,
+  handleClearLogs,
 } = analyticsSlice.actions;
 export default analyticsSlice.reducer;

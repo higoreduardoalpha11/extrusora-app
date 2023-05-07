@@ -1,0 +1,18 @@
+@server=http://localhost:4040
+@endPoint=logs
+
+### POST /logs
+POST {{ server }}/{{ endPoint }} HTTP/1.1
+content-type: application/json
+
+{
+  "type": "warning",
+  "title": "Limite de temperatura próximo",
+  "description": "Limite de temperatura de trabalho próximo das condições limite, por favor analise e fiscalize o equipamento durante o processamento."
+}
+
+### GET /logs
+GET {{ server }}/{{ endPoint }} HTTP/1.1
+
+### DELETE /logs
+DELETE {{ server }}/{{ endPoint }} HTTP/1.1

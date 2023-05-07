@@ -17,6 +17,10 @@ const requiredHandling = (err) => {
   else if (keysErr.includes('temperature') && !err.temperature) error.title = 'Temperatura';
   else if (keysErr.includes('pressure') && !err.pressure) error.title = 'Pressão';
   else if (keysErr.includes('power') && !err.power) error.title = 'Potência';
+  else if (keysErr.includes('type') && !err.type) error.title = 'Tipo';
+  else if (keysErr.includes('title') && !err.title) error.title = 'Título';
+  else if (keysErr.includes('description') && !err.description) error.title = 'Descrição';
+  else if (keysErr.includes('id') && !err.id) error.title = 'Identificador';
   else {
     error.title = 'Servidor';
     error.message = 'ocorreu um erro inesperado';
