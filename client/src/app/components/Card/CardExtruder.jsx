@@ -1,18 +1,26 @@
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { Operation } from '@/app/action';
 import { Card } from '@/app/components';
 
 const CardExtruder = () => {
+  const dispatch = useDispatch();
   const { setting } = useSelector((state) => state);
-  const [isExtruder, setIsExtruder] = useState(false); // RN: Devo receber sinal da extrusora
+  const { extruderButton } = useSelector((state) => state.operation); // RN: Devo receber sinal da extrusora
+
+  const handleExtruderButton = () => {
+    dispatch(
+      Operation.handleChangeExtruderButton()
+    )
+  }
 
   return (
     <Card
       icon="settings"
       title="Extrusora"
-      isOn={isExtruder}
-      handleOnClick={() => setIsExtruder(!isExtruder)}
+      isOn={extruderButton}
+      handleOnClick={handleExtruderButton}
+      isPower
     >
       <>
         <p className="flex flex-row flex-between">

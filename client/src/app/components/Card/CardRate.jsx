@@ -1,31 +1,56 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { Operation, Control } from '@/app/action';
 import { Card, Button, Icon } from '@/app/components';
 
 const CardRate = () => {
+  const dispatch = useDispatch();
   const { setting } = useSelector((state) => state);
-  const [isRate, setIsRate] = useState(false); // RN: Devo receber sinal da vazadora
-
+  const { extruderButton, rateButton } = useSelector((state) => state.operation); // RN: Devo receber sinal da vazadora
   // FIXME: Definir como não ultrapassar limites
-  const [shutterSpeed, setShutterSpeed] = useState(0); // RN: Devo enviar sinal para vazadora
-  const [rate, setRate] = useState(0); // RN: Devo receber sinal da vazadora
+  // RN: Devo enviar sinal para vazadora
+  // RN: Devo receber sinal da vazadora
+  const { rateRotation, rate } = useSelector((state) => state.control);
+
+  const handleRateButton = () => {
+    dispatch(
+      Operation.handleChangeRateButton()
+    )
+    handleRateRotation(0);
+    handleRate(0);
+  }
+
+  const handleRateRotation = (data) => {
+    dispatch(
+      Control.handleChangeRateRotation(data)
+    )
+  }
+
+  const handleRate = (data) => {
+    dispatch(
+      Control.handleChangeRate(data)
+    )
+  }
+
+  useEffect(() => {
+    if (!extruderButton) {
+      handleRateRotation(0);
+      handleRate(0);
+    }
+  }, [extruderButton]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Card
       icon="speed"
       title="Controle de rotação"
-      isOn={isRate}
-      handleOnClick={() => {
-        setIsRate(!isRate);
-        setShutterSpeed(0);
-        setRate(0);
-      }}
+      isOn={rateButton}
+      handleOnClick={handleRateButton}
     >
       <>
         <p className="flex flex-row flex-between">
           <span>Rotação (rpm)</span>
-          <span className="text-info">{shutterSpeed}</span>
+          <span className="text-info">{rateRotation}</span>
         </p>
 
         <p className="flex flex-row flex-between">
@@ -44,14 +69,14 @@ const CardRate = () => {
               color="white"
               variate="sm"
               handleOnClick={() => {
-                const newSpeed = shutterSpeed - setting.intervalRotation > 0
-                  ? shutterSpeed - setting.intervalRotation
+                const newSpeed = rateRotation - setting.intervalRotation > 0
+                  ? rateRotation - setting.intervalRotation
                   : 0;
 
-                setShutterSpeed(newSpeed);
-                setRate(newSpeed);
+                handleRateRotation(newSpeed);
+                handleRate(newSpeed);
               }}
-              isDisable={!isRate}
+              isDisable={!rateButton}
             />
 
             <Button
@@ -61,12 +86,12 @@ const CardRate = () => {
               color="white"
               variate="sm"
               handleOnClick={() => {
-                const newSpeed = shutterSpeed + setting.intervalRotation;
+                const newSpeed = rateRotation + setting.intervalRotation;
 
-                setShutterSpeed(newSpeed);
-                setRate(newSpeed);
+                handleRateRotation(newSpeed);
+                handleRate(newSpeed);
               }}
-              isDisable={!isRate}
+              isDisable={!rateButton}
             />
           </span>
         </p>

@@ -1,28 +1,59 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { Operation, Control } from '@/app/action';
 import { Card, Button, Icon } from '@/app/components';
 
 const CardDosage = () => {
+  const dispatch = useDispatch();
   const { setting } = useSelector((state) => state);
-  const [isDosage, setIsDosage] = useState(false); // RN: Devo receber sinal da coleira
+  const { extruderButton, dosageButton } = useSelector((state) => state.operation); // RN: Devo receber sinal da coleira
 
-    // FIXME: Definir como não ultrapassar limites
-    const [dosageTemperature, setDosageTemperature] = useState(0); // RN: Devo receber sinal da coleira
-    const [dosagePressure, setDosagePressure] = useState(0); // RN: Devo receber sinal da coleira
-    const [dosagePower, setDosagePower] = useState(0); // RN: Devo receber sinal da coleira
-  
+  // FIXME: Definir como não ultrapassar limites
+  // RN: Devo receber sinal da coleira
+  const { dosageTemperature, dosagePressure, dosagePower } = useSelector((state) => state.control);
+
+  const handleDosageTemperature = (data) => {
+    dispatch(
+      Control.handleChangeDosageTemperature(data)
+    )
+  }
+
+  const handleDosagePressure = (data) => {
+    dispatch(
+      Control.handleChangeDosagePressure(data)
+    )
+  }
+
+  const handleDosagePower = (data) => {
+    dispatch(
+      Control.handleChangeDosagePower(data)
+    )
+  }
+
+  const handleDosageButton = () => {
+    dispatch(
+      Operation.handleChangeDosageButton()
+    )
+    handleDosageTemperature(0);
+    handleDosagePressure(0);
+    handleDosagePower(0);
+  }
+
+  useEffect(() => {
+    if (!extruderButton) {
+      handleDosageTemperature(0);
+      handleDosagePressure(0);
+      handleDosagePower(0);
+    }
+  }, [extruderButton]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <Card
       icon="lamp"
       title="Dosagem"
-      isOn={isDosage}
-      handleOnClick={() => {
-        setIsDosage(!isDosage);
-        setDosageTemperature(0);
-        setDosagePressure(0);
-        setDosagePower(0);
-      }}
+      isOn={dosageButton}
+      handleOnClick={handleDosageButton}
     >
       <>
         <p className="flex flex-row flex-between">
@@ -48,18 +79,18 @@ const CardDosage = () => {
               type="button"
               title="Diminir"
               content={<Icon icon="arrow-down" />}
-              color="white"                    
+              color="white"
               variate="sm"
               handleOnClick={() => {
                 const newPower = dosagePower - setting.intervalDosagePower > 0
                   ? dosagePower - setting.intervalDosagePower
                   : 0;
 
-                setDosagePower(newPower);
-                setDosageTemperature(newPower);
-                setDosagePressure(newPower);
+                handleDosagePower(newPower);
+                handleDosageTemperature(newPower);
+                handleDosagePressure(newPower);
               }}
-              isDisable={!isDosage}
+              isDisable={!dosageButton}
             />
 
             <Button
@@ -71,11 +102,11 @@ const CardDosage = () => {
               handleOnClick={() => {
                 const newPower = dosagePower + setting.intervalDosagePower;
 
-                setDosagePower(newPower);
-                setDosageTemperature(newPower);
-                setDosagePressure(newPower);
+                handleDosagePower(newPower);
+                handleDosageTemperature(newPower);
+                handleDosagePressure(newPower);
               }}
-              isDisable={!isDosage}
+              isDisable={!dosageButton}
             />
           </span>
         </p>

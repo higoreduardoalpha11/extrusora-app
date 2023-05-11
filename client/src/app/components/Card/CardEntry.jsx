@@ -1,28 +1,59 @@
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
+import { Operation, Control } from '@/app/action';
 import { Card, Button, Icon } from '@/app/components';
 
 const CardEntry = () => {
+  const dispatch = useDispatch();
   const { setting } = useSelector((state) => state);
-  const [isEntry, setIsEntry] = useState(false); // RN: Devo receber sinal da coleira
+  const { extruderButton, entryButton } = useSelector((state) => state.operation); // RN: Devo receber sinal da coleira
 
   // FIXME: Definir como não ultrapassar limites
-  const [entryTemperature, setEntryTemperature] = useState(0); // RN: Devo receber sinal da coleira
-  const [entryPressure, setEntryPressure] = useState(0); // RN: Devo receber sinal da coleira
-  const [entryPower, setEntryPower] = useState(0); // RN: Devo receber sinal da coleira
+  // RN: Devo receber sinal da coleira
+  const { entryTemperature, entryPressure, entryPower } = useSelector((state) => state.control);
 
-  return(
+  const handleEntryTemperature = (data) => {
+    dispatch(
+      Control.handleChangeEntryTemperature(data)
+    )
+  }
+
+  const handleEntryPressure = (data) => {
+    dispatch(
+      Control.handleChangeEntryPressure(data)
+    )
+  }
+
+  const handleEntryPower = (data) => {
+    dispatch(
+      Control.handleChangeEntryPower(data)
+    )
+  }
+
+  const handleEntryButton = () => {
+    dispatch(
+      Operation.handleChangeEntryButton()
+    )
+    handleEntryTemperature(0);
+    handleEntryPressure(0);
+    handleEntryPower(0);
+  }
+
+  useEffect(() => {
+    if (!extruderButton) {
+      handleEntryTemperature(0);
+      handleEntryPressure(0);
+      handleEntryPower(0);
+    }
+  }, [extruderButton]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
     <Card
       icon="lamp"
       title="Alimentação"
-      isOn={isEntry}
-      handleOnClick={() => {
-        setIsEntry(!isEntry);
-        setEntryTemperature(0);
-        setEntryPressure(0);
-        setEntryPower(0);
-      }}
+      isOn={entryButton}
+      handleOnClick={handleEntryButton}
     >
       <>
         <p className="flex flex-row flex-between">
@@ -55,11 +86,11 @@ const CardEntry = () => {
                   ? entryPower - setting.intervalEntryPower
                   : 0;
 
-                setEntryPower(newPower);
-                setEntryTemperature(newPower);
-                setEntryPressure(newPower);
+                handleEntryPower(newPower);
+                handleEntryTemperature(newPower);
+                handleEntryPressure(newPower);
               }}
-              isDisable={!isEntry}
+              isDisable={!entryButton}
             />
 
             <Button
@@ -71,11 +102,11 @@ const CardEntry = () => {
               handleOnClick={() => {
                 const newPower = entryPower + setting.intervalEntryPower;
 
-                setEntryPower(newPower);
-                setEntryTemperature(newPower);
-                setEntryPressure(newPower);
+                handleEntryPower(newPower);
+                handleEntryTemperature(newPower);
+                handleEntryPressure(newPower);
               }}
-              isDisable={!isEntry}
+              isDisable={!entryButton}
             />
           </span>
         </p>
