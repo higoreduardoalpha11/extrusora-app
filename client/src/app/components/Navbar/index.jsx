@@ -1,16 +1,23 @@
 import { Link, useLocation } from 'react-router-dom';
 import { MdApps, MdSettings, MdNotificationsNone, MdPowerSettingsNew } from 'react-icons/md';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import eventBus from '@/app/utils/eventBus';
-import { useSelector } from 'react-redux';
+import { Operation } from '@/app/action';
 
 const Navbar = () => {
   const { logs } = useSelector((state) => state.analytics);
+  const { emergencyButton } = useSelector((state) => state.operation); // Tenho que acionar e desacionar botoeira de emergência
   const location = useLocation();
   const pathname = location.pathname;
-  const [isEnergy, setIsEnergy] = useState(false); // Tenho que acionar e desacionar botoeira de emergência
+  const dispatch = useDispatch();
   const logsUnread = logs?.filter((item) => !item.visible)?.length;
+
+  const handleEmergencyButton = () => {
+    dispatch(
+      Operation.handleChangeEmergencyButton()
+    )
+  }
 
   return (
     <header className="navbar py-10 bg-bg-light">
@@ -35,13 +42,9 @@ const Navbar = () => {
 
           <span
             className="text cursor-pointer"
-            onClick={() => {
-              setIsEnergy(!isEnergy);
-              if (isEnergy) eventBus.dispatch('on-ready', true);
-              else eventBus.dispatch('on-ready', false);
-            }}
+            onClick={handleEmergencyButton}
           >
-            <MdPowerSettingsNew className={`font-h4 text ${isEnergy ? 'text-light-green' : 'text-danger'}`} />
+            <MdPowerSettingsNew className={`font-h4 text ${emergencyButton ? 'text-light-green' : 'text-danger'}`} />
           </span>
         </nav>
       </div>

@@ -1,18 +1,14 @@
-import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import eventBus from '@/app/utils/eventBus';
 import { Icon, Button } from '@/app/components';
 import './index.css';
+import { useSelector } from 'react-redux';
 
 const Card = (props) => {
-  const [isNoReady, setIsNoReady] = useState(true);
-
-  useEffect(() => {
-    // Listener/Clear on-ready
-    eventBus.on('on-ready', (data) => setIsNoReady(data));
-    eventBus.remove('on-ready');
-  }, []);
+  const { setting } = useSelector((state) => state);
+  const { emergencyButton, extruderButton } = useSelector((state) => state.operation);
+  const isNonSettings = Object.keys(setting).map((item) => setting[item] !== '').includes(false);
+  const isNonDisable = props.isPower ? emergencyButton && !isNonSettings : emergencyButton && extruderButton;
 
   return (
     <article className="card flex flex-row flex-start gap-20 p-20 bg-bg-light border-radius-lg">
@@ -30,7 +26,7 @@ const Card = (props) => {
             content={props.isOn ? 'On' : 'Off'}
             color={props.isOn ? 'success' : 'none'}
             handleOnClick={props.handleOnClick}
-            isDisable={isNoReady}
+            isDisable={!isNonDisable}
           />
         </p>
 
@@ -44,6 +40,7 @@ Card.propTypes = {
   title: PropTypes.string.isRequired,
   isOn: PropTypes.bool.isRequired,
   handleOnClick: PropTypes.func.isRequired,
+  isPower: PropTypes.bool,
   children: PropTypes.element,
 }
 export default Card;

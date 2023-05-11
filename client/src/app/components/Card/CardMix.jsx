@@ -1,28 +1,59 @@
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
+import { Operation, Control } from '@/app/action';
 import { Card, Button, Icon } from '@/app/components';
 
 const CardMix = () => {
+  const dispatch = useDispatch();
   const { setting } = useSelector((state) => state);
-  const [isMix, setIsMix] = useState(false); // RN: Devo receber sinal da coleira
+  const { extruderButton, mixButton } = useSelector((state) => state.operation); // RN: Devo receber sinal da coleira
 
   // FIXME: Definir como não ultrapassar limites
-  const [mixTemperature, setMixTemperature] = useState(0); // RN: Devo receber sinal da coleira
-  const [mixPressure, setMixPressure] = useState(0); // RN: Devo receber sinal da coleira
-  const [mixPower, setMixPower] = useState(0); // RN: Devo receber sinal da coleira
+  // RN: Devo receber sinal da coleira
+  const { mixTemperature, mixPressure, mixPower } = useSelector((state) => state.control);
+
+  const handleMixTemperature = (data) => {
+    dispatch(
+      Control.handleChangeMixTemperature(data)
+    )
+  }
+
+  const handleMixPressure = (data) => {
+    dispatch(
+      Control.handleChangeMixPressure(data)
+    )
+  }
+
+  const handleMixPower = (data) => {
+    dispatch(
+      Control.handleChangeMixPower(data)
+    )
+  }
+
+  const handleMixButton = () => {
+    dispatch(
+      Operation.handleChangeMixButton()
+    )
+    handleMixTemperature(0);
+    handleMixPressure(0);
+    handleMixPower(0);
+  }
+
+  useEffect(() => {
+    if (!extruderButton) {
+      handleMixTemperature(0);
+      handleMixPressure(0);
+      handleMixPower(0);
+    }
+  }, [extruderButton]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Card
       icon="lamp"
       title="Mistura"
-      isOn={isMix}
-      handleOnClick={() => {
-        setIsMix(!isMix);
-        setMixTemperature(0);
-        setMixPressure(0);
-        setMixPower(0);
-      }}
+      isOn={mixButton}
+      handleOnClick={handleMixButton}
     >
       <>
         <p className="flex flex-row flex-between">
@@ -55,11 +86,11 @@ const CardMix = () => {
                   ? mixPower - setting.intervalMixPower
                   : 0;
 
-                setMixPower(newPower);
-                setMixTemperature(newPower);
-                setMixPressure(newPower);
+                handleMixPower(newPower);
+                handleMixTemperature(newPower);
+                handleMixPressure(newPower);
               }}
-              isDisable={!isMix}
+              isDisable={!mixButton}
             />
 
             <Button
@@ -71,11 +102,11 @@ const CardMix = () => {
               handleOnClick={() => {
                 const newPower = mixPower + setting.intervalMixPower;
 
-                setMixPower(newPower);
-                setMixTemperature(newPower);
-                setMixPressure(newPower);
+                handleMixPower(newPower);
+                handleMixTemperature(newPower);
+                handleMixPressure(newPower);
               }}
-              isDisable={!isMix}
+              isDisable={!mixButton}
             />
           </span>
         </p>

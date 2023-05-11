@@ -20,6 +20,16 @@ const Setting = () => {
     )
   }
 
+  const handleClearSetting = () => {
+    eventBus.dispatch('loader', true);
+    dispatch(
+      ActionSetting.handleClearSetting((message) => {
+        eventBus.dispatch('loader', false);
+        eventBus.dispatch('toast', message);
+      })
+    )
+  }
+
   return (
     <section className="setting py-20">
       <Formik
@@ -123,12 +133,20 @@ const Setting = () => {
               </div>
             </div>
 
-            <div className="form-button-group py-30">
+            <div className="form-button-group flex flex-row gap-20 py-30">
               <Button
                 type="submit"
                 title="Salvar configurações"
                 content="Salvar configurações"
                 color="white"
+              />
+
+              <Button
+                type="button"
+                title="Resetar configurações"
+                content="Resetar configurações"
+                color="none"
+                handleOnClick={handleClearSetting}
               />
             </div>
           </form>
