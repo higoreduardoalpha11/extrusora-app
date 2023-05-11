@@ -36,16 +36,16 @@ export const handleChangeSetting = (data, cb) => {
   }
 }
 
-export const handleClearSetting = () => {
+export const handleClearSetting = (cb) => {
   return function (dispatch) {
     dispatch(
       settingHandleClearSetting()
     );
 
-    return {
+    cb({
       type: 'success',
       title: 'Configurações',
       message: 'resetadas com sucesso',
-    }
+    })
   }
 }
