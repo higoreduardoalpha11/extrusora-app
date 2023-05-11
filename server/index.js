@@ -20,6 +20,15 @@ const mongoUrl = process.env.SERVER_MONGO_URL;
 app.use(cors());
 app.use(express.json());
 app.disable('x-powered-by');
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization,  X-PINGOTHER'
+  );
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS');
+
+  next();
+});
 
 app.use('/zones', zoneRoutes);
 app.use('/logs', logRoutes);
